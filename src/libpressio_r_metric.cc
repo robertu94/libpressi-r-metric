@@ -161,7 +161,7 @@ class rcpp_metrics_plugin : public libpressio_metrics_plugin {
     }
   }
 
-  struct pressio_options get_metrics_results(pressio_options const& ) const override {
+  struct pressio_options get_metrics_results(pressio_options const& ) override {
     return metrics_results;
   }
 
