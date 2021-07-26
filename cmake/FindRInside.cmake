@@ -1,8 +1,15 @@
+if(DEFINED ENV{SPACK_CC})
+  message(WARNING "unsetting R_HOME when building with spack")
+  unset(ENV{R_HOME})
+endif()
+
 find_program(R_CMD
   R
   HINTS ENV R_HOME
   PATH_SUFFIXES /bin/
   )
+
+
 execute_process(
   COMMAND ${R_CMD} CMD config --cppflags
   OUTPUT_VARIABLE R_CPPFLAGS
