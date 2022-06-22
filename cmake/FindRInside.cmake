@@ -65,15 +65,28 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
   )
 
+message(DEBUG " RCpp:::CxxFlags ${RCPP_CXXFLAGS}")
+message(DEBUG " RInside:::CxxFlags ${RINSIDE_CXXFLAGS}")
+message(DEBUG " R:::CppFlags ${R_CPPFLAGS}")
+message(DEBUG " R_BLASLIBS ${R_BLASLIBS}")
+message(DEBUG " R_LAPACKLIBS  ${R_LAPACKLIBS}")
+message(DEBUG " R_LDFLAGS ${R_LDFLAGS}")
+message(DEBUG " RINSIDE_LDFLAGS ${RINSIDE_LDFLAGS}")
+message(DEBUG " RCPP_LDFLAGS ${RCPP_LDFLAGS}")
+message(DEBUG " RCPP_CXXFLAGS_SEP ${RCPP_CXXFLAGS_SEP}")
+message(DEBUG " RINSIDE_CXXFLAGS_SEP ${RINSIDE_CXXFLAGS_SEP}")
+separate_arguments(RCPP_CXXFLAGS_SEP UNIX_COMMAND "${RCPP_CXXFLAGS}")
+separate_arguments(RINSIDE_CXXFLAGS_SEP UNIX_COMMAND "${RINSIDE_CXXFLAGS}")
+
 
 if(NOT TARGET RInside::RInside)
   add_library(RInside::RInside INTERFACE IMPORTED)
   target_compile_options(RInside::RInside
     INTERFACE
-    ${RINSIDE_CXXFLAGS}
-    ${RCPP_CXXFLAGS}
-    ${R_CPPFLAGS}
-    ${RCPP_CXXFLAGS}
+    "${RCPP_CXXFLAGS_SEP}"
+    "${RINSIDE_CXXFLAGS_SEP}"
+    "${R_CPPFLAGS}"
+    "${RCPP_CXXFLAGS_SEP}"
     )
   target_link_libraries(RInside::RInside
     INTERFACE

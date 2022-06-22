@@ -9,6 +9,9 @@
 #include "std_compat/memory.h"
 #include "RInside.h"
 
+extern "C" void libpressio_register_r_metric() {
+}
+
 std::mutex rmanager_global_lock;
 /**
  * used to manage the lifetime of RInside's global instance

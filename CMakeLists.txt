@@ -1,6 +1,6 @@
 ## template for a CMake C++ Library
 cmake_minimum_required(VERSION 3.14)
-project(libpressio_r_metric VERSION "0.0.3" LANGUAGES CXX)
+project(libpressio_r_metric VERSION "0.0.4" LANGUAGES CXX)
 
 #correct was to set a default build type
 # https://blog.kitware.com/cmake-and-the-default-build-type/
@@ -64,13 +64,27 @@ configure_file(
   @ONLY
   )
 
-export(TARGETS libpressio_r_metric NAMESPACE libpressio_r_metric:: FILE libpressio_r_metric.cmake)
-install(TARGETS libpressio_r_metric EXPORT libpressio_r_metricConfig
+install(TARGETS libpressio_r_metric EXPORT LibPressioRMetricTargets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   )
-install(EXPORT libpressio_r_metricConfig NAMESPACE libpressio_r_metric:: DESTINATION share/libpressio_r_metric/cmake)
+install(EXPORT LibPressioRMetricTargets NAMESPACE LibPressioRMetric:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/LibPressioRMetric/)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/LibPressioRMetricConfig.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/LibPressioRMetricConfig.cmake"
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/LibPressioRMetric
+)
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/LibPressioRMetricConfigVersion.cmake"
+  VERSION "${PROJECT_VERSION}"
+  COMPATIBILITY AnyNewerVersion
+)
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/LibPressioRMetricConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/LibPressioRMetricConfigVersion.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/LibPressioRMetric
+)
 install(DIRECTORY include/ DESTINATION
   ${CMAKE_INSTALL_INCLUDEDIR}/libpressio_r_metric)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/libpressio_r_metric_version.h
