@@ -179,7 +179,7 @@ class rcpp_metrics_plugin : public libpressio_metrics_plugin {
 
   struct pressio_options get_configuration() const override {
     pressio_options opts;
-    set(opts, "pressio:thread_safe", static_cast<int32_t>(pressio_thread_safety_single));
+    set(opts, "pressio:thread_safe", pressio_thread_safety_single);
     set(opts, "pressio:stability", "external");
     return opts;
   }
