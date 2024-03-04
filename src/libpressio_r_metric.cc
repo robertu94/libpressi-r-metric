@@ -181,6 +181,15 @@ class rcpp_metrics_plugin : public libpressio_metrics_plugin {
     pressio_options opts;
     set(opts, "pressio:thread_safe", pressio_thread_safety_single);
     set(opts, "pressio:stability", "external");
+    
+    std::vector<std::string> invalidations {}; 
+    std::vector<pressio_configurable const*> invalidation_children {}; 
+    
+    set(opts, "predictors:requires_decompress", true);
+    set(opts, "predictors:error_dependent", get_accumulate_configuration("predictors:error_dependent", invalidation_children, invalidations));
+    set(opts, "predictors:error_agnostic", get_accumulate_configuration("predictors:error_agnostic", invalidation_children, invalidations));
+    set(opts, "predictors:runtime", get_accumulate_configuration("predictors:runtime", invalidation_children, invalidations));
+
     return opts;
   }
 
